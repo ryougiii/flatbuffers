@@ -15,27 +15,27 @@
     },
     "MyGame_Example_Any" : {
       "type" : "string",
-      "enum": ["NONE", "Monster", "TestSimpleTableWithEnum", "MyGame_Example2_Monster"]
+      "enum": ["Monster", "TestSimpleTableWithEnum", "MyGame_Example2_Monster"]
     },
     "MyGame_Example_AnyUniqueAliases" : {
       "type" : "string",
-      "enum": ["NONE", "M", "TS", "M2"]
+      "enum": ["M", "TS", "M2"]
     },
     "MyGame_Example_AnyAmbiguousAliases" : {
       "type" : "string",
-      "enum": ["NONE", "M1", "M2", "M3"]
+      "enum": ["M1", "M2", "M3"]
     },
     "MyGame_OtherNameSpace_Unused" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "a" : {
-                "type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647
+                "type" : "int32_t"
               }
       },
       "additionalProperties" : false
     },
     "MyGame_OtherNameSpace_TableB" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "a" : {
                 "$ref" : "#/definitions/TableA"
@@ -44,7 +44,7 @@
       "additionalProperties" : false
     },
     "TableA" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "b" : {
                 "$ref" : "#/definitions/MyGame_OtherNameSpace_TableB"
@@ -53,31 +53,31 @@
       "additionalProperties" : false
     },
     "MyGame_InParentNamespace" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
       },
       "additionalProperties" : false
     },
     "MyGame_Example2_Monster" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
       },
       "additionalProperties" : false
     },
     "MyGame_Example_Test" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "a" : {
-                "type" : "integer", "minimum" : -32768, "maximum" : 32767
+                "type" : "int16_t"
               },
         "b" : {
-                "type" : "integer", "minimum" : -128, "maximum" : 127
+                "type" : "int8_t"
               }
       },
       "additionalProperties" : false
     },
     "MyGame_Example_TestSimpleTableWithEnum" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "color" : {
                 "$ref" : "#/definitions/MyGame_Example_Color"
@@ -86,19 +86,19 @@
       "additionalProperties" : false
     },
     "MyGame_Example_Vec3" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "x" : {
-                "type" : "number"
+                "type" : "float"
               },
         "y" : {
-                "type" : "number"
+                "type" : "float"
               },
         "z" : {
-                "type" : "number"
+                "type" : "float"
               },
         "test1" : {
-                "type" : "number"
+                "type" : "float"
               },
         "test2" : {
                 "$ref" : "#/definitions/MyGame_Example_Color"
@@ -110,19 +110,19 @@
       "additionalProperties" : false
     },
     "MyGame_Example_Ability" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "id" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 4294967295
+                "type" : "uint32_t"
               },
         "distance" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 4294967295
+                "type" : "uint32_t"
               }
       },
       "additionalProperties" : false
     },
     "MyGame_Example_StructOfStructs" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "a" : {
                 "$ref" : "#/definitions/MyGame_Example_Ability"
@@ -137,51 +137,51 @@
       "additionalProperties" : false
     },
     "MyGame_Example_Stat" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "id" : {
                 "type" : "string"
               },
         "val" : {
-                "type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807
+                "type" : "int64_t"
               },
         "count" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 65535
+                "type" : "uint16_t"
               }
       },
       "additionalProperties" : false
     },
     "MyGame_Example_Referrable" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "id" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               }
       },
       "additionalProperties" : false
     },
     "MyGame_Example_Monster" : {
-      "type" : "object",
+      "type" : "table",
       "description" : "an example documentation comment: \"monster object\"",
       "properties" : {
         "pos" : {
                 "$ref" : "#/definitions/MyGame_Example_Vec3"
               },
         "mana" : {
-                "type" : "integer", "minimum" : -32768, "maximum" : 32767
+                "type" : "int16_t"
               },
         "hp" : {
-                "type" : "integer", "minimum" : -32768, "maximum" : 32767
+                "type" : "int16_t"
               },
         "name" : {
                 "type" : "string"
               },
         "friendly" : {
-                "type" : "boolean",
+                "type" : "bool",
                 "deprecated" : true
               },
         "inventory" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" :255}
+                "type" : "array", "items" : {"type" : "uint8_t"}
               },
         "color" : {
                 "$ref" : "#/definitions/MyGame_Example_Color"
@@ -206,49 +206,49 @@
                 "$ref" : "#/definitions/MyGame_Example_Monster"
               },
         "testnestedflatbuffer" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" :255}
+                "type" : "array", "items" : {"type" : "uint8_t"}
               },
         "testempty" : {
                 "$ref" : "#/definitions/MyGame_Example_Stat"
               },
         "testbool" : {
-                "type" : "boolean"
+                "type" : "bool"
               },
         "testhashs32_fnv1" : {
-                "type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647
+                "type" : "int32_t"
               },
         "testhashu32_fnv1" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 4294967295
+                "type" : "uint32_t"
               },
         "testhashs64_fnv1" : {
-                "type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807
+                "type" : "int64_t"
               },
         "testhashu64_fnv1" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "testhashs32_fnv1a" : {
-                "type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647
+                "type" : "int32_t"
               },
         "testhashu32_fnv1a" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 4294967295
+                "type" : "uint32_t"
               },
         "testhashs64_fnv1a" : {
-                "type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807
+                "type" : "int64_t"
               },
         "testhashu64_fnv1a" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "testarrayofbools" : {
-                "type" : "array", "items" : {"type" : "boolean"}
+                "type" : "array", "items" : {"type" : "bool"}
               },
         "testf" : {
-                "type" : "number"
+                "type" : "float"
               },
         "testf2" : {
-                "type" : "number"
+                "type" : "float"
               },
         "testf3" : {
-                "type" : "number"
+                "type" : "float"
               },
         "testarrayofstring2" : {
                 "type" : "array", "items" : {"type" : "string"}
@@ -257,16 +257,16 @@
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_Ability"}
               },
         "flex" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" :255}
+                "type" : "array", "items" : {"type" : "uint8_t"}
               },
         "test5" : {
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_Test"}
               },
         "vector_of_longs" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807}
+                "type" : "array", "items" : {"type" : "int64_t"}
               },
         "vector_of_doubles" : {
-                "type" : "array", "items" : {"type" : "number"}
+                "type" : "array", "items" : {"type" : "float"}
               },
         "parent_namespace_test" : {
                 "$ref" : "#/definitions/MyGame_InParentNamespace"
@@ -275,25 +275,25 @@
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_Referrable"}
               },
         "single_weak_reference" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "vector_of_weak_references" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615}
+                "type" : "array", "items" : {"type" : "uint64_t"}
               },
         "vector_of_strong_referrables" : {
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_Referrable"}
               },
         "co_owning_reference" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "vector_of_co_owning_references" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615}
+                "type" : "array", "items" : {"type" : "uint64_t"}
               },
         "non_owning_reference" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "vector_of_non_owning_references" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615}
+                "type" : "array", "items" : {"type" : "uint64_t"}
               },
         "any_unique_type" : {
                 "$ref" : "#/definitions/MyGame_Example_AnyUniqueAliases"
@@ -314,7 +314,7 @@
                 "$ref" : "#/definitions/MyGame_Example_Race"
               },
         "testrequirednestedflatbuffer" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : 0, "maximum" :255}
+                "type" : "array", "items" : {"type" : "uint8_t"}
               },
         "scalar_key_sorted_tables" : {
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_Stat"}
@@ -324,43 +324,43 @@
       "additionalProperties" : false
     },
     "MyGame_Example_TypeAliases" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "i8" : {
-                "type" : "integer", "minimum" : -128, "maximum" : 127
+                "type" : "int8_t"
               },
         "u8" : {
-                "type" : "integer", "minimum" : 0, "maximum" :255
+                "type" : "uint8_t"
               },
         "i16" : {
-                "type" : "integer", "minimum" : -32768, "maximum" : 32767
+                "type" : "int16_t"
               },
         "u16" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 65535
+                "type" : "uint16_t"
               },
         "i32" : {
-                "type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647
+                "type" : "int32_t"
               },
         "u32" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 4294967295
+                "type" : "uint32_t"
               },
         "i64" : {
-                "type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807
+                "type" : "int64_t"
               },
         "u64" : {
-                "type" : "integer", "minimum" : 0, "maximum" : 18446744073709551615
+                "type" : "uint64_t"
               },
         "f32" : {
-                "type" : "number"
+                "type" : "float"
               },
         "f64" : {
-                "type" : "number"
+                "type" : "float"
               },
         "v8" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -128, "maximum" : 127}
+                "type" : "array", "items" : {"type" : "int8_t"}
               },
         "vf64" : {
-                "type" : "array", "items" : {"type" : "number"}
+                "type" : "array", "items" : {"type" : "float"}
               }
       },
       "additionalProperties" : false

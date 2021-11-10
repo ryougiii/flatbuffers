@@ -787,11 +787,16 @@ CheckedError Parser::ParseField(StructDef &struct_def) {
   } else if (IsVector(type) && type.element == BASE_TYPE_UNION) {
     advanced_features_ |= reflection::AdvancedUnionFeatures;
     // Only cpp, js and ts supports the union vector feature so far.
-    if (!SupportsAdvancedUnionFeatures()) {
-      return Error(
-          "Vectors of unions are not yet supported in at least one of "
-          "the specified programming languages.");
-    }
+
+
+    //changed
+    // if (!SupportsAdvancedUnionFeatures()) {
+    //   return Error(
+    //       "Vectors of unions are not yet supported in at least one of "
+    //       "the specified programming languages.");
+    // }
+
+
     // For vector of union fields, add a second auto-generated vector field to
     // hold the types, with a special suffix.
     Type union_vector(BASE_TYPE_VECTOR, nullptr, type.enum_def);
@@ -3246,22 +3251,25 @@ CheckedError Parser::ParseRoot(const char *source, const char **include_paths,
     ++it;
   }
 
+  //changed
   // This check has to happen here and not earlier, because only now do we
   // know for sure what the type of these are.
-  for (auto it = enums_.vec.begin(); it != enums_.vec.end(); ++it) {
-    auto &enum_def = **it;
-    if (enum_def.is_union) {
-      for (auto val_it = enum_def.Vals().begin();
-           val_it != enum_def.Vals().end(); ++val_it) {
-        auto &val = **val_it;
-        if (!(opts.lang_to_generate != 0 && SupportsAdvancedUnionFeatures()) &&
-            (IsStruct(val.union_type) || IsString(val.union_type)))
-          return Error(
-              "only tables can be union elements in the generated language: " +
-              val.name);
-      }
-    }
-  }
+  // for (auto it = enums_.vec.begin(); it != enums_.vec.end(); ++it) {
+  //   auto &enum_def = **it;
+  //   if (enum_def.is_union) {
+  //     for (auto val_it = enum_def.Vals().begin();
+  //          val_it != enum_def.Vals().end(); ++val_it) {
+  //       auto &val = **val_it;
+  //       if (!(opts.lang_to_generate != 0 && SupportsAdvancedUnionFeatures()) &&
+  //           (IsStruct(val.union_type) || IsString(val.union_type)))
+  //         return Error(
+  //             "only tables can be union elements in the generated language: " +
+  //             val.name);
+  //     }
+  //   }
+  // }
+
+
   // Parse JSON object only if the scheme has been parsed.
   if (token_ == '{') { ECHECK(DoParseJson()); }
   EXPECT(kTokenEof);

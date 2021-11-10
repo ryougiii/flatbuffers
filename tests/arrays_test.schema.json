@@ -6,10 +6,10 @@
       "enum": ["A", "B", "C"]
     },
     "MyGame_Example_NestedStruct" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "a" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647},
+                "type" : "array", "items" : {"type" : "int32_t"},
                 "minItems": 2,
                 "maxItems": 2
               },
@@ -22,7 +22,7 @@
                 "maxItems": 2
               },
         "d" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807},
+                "type" : "array", "items" : {"type" : "int64_t"},
                 "minItems": 2,
                 "maxItems": 2
               }
@@ -30,18 +30,18 @@
       "additionalProperties" : false
     },
     "MyGame_Example_ArrayStruct" : {
-      "type" : "object",
+      "type" : "struct",
       "properties" : {
         "a" : {
-                "type" : "number"
+                "type" : "float"
               },
         "b" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647},
+                "type" : "array", "items" : {"type" : "int32_t"},
                 "minItems": 15,
                 "maxItems": 15
               },
         "c" : {
-                "type" : "integer", "minimum" : -128, "maximum" : 127
+                "type" : "int8_t"
               },
         "d" : {
                 "type" : "array", "items" : {"$ref" : "#/definitions/MyGame_Example_NestedStruct"},
@@ -49,10 +49,10 @@
                 "maxItems": 2
               },
         "e" : {
-                "type" : "integer", "minimum" : -2147483648, "maximum" : 2147483647
+                "type" : "int32_t"
               },
         "f" : {
-                "type" : "array", "items" : {"type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807},
+                "type" : "array", "items" : {"type" : "int64_t"},
                 "minItems": 2,
                 "maxItems": 2
               }
@@ -60,7 +60,7 @@
       "additionalProperties" : false
     },
     "MyGame_Example_ArrayTable" : {
-      "type" : "object",
+      "type" : "table",
       "properties" : {
         "a" : {
                 "$ref" : "#/definitions/MyGame_Example_ArrayStruct"

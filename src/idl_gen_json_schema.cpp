@@ -44,41 +44,17 @@ std::string GenType(const std::string &name) {
 
 std::string GenType(BaseType type) {
   switch (type) {
-    case BASE_TYPE_BOOL: return "\"type\" : \"boolean\"";
-    case BASE_TYPE_CHAR:
-      return "\"type\" : \"integer\", \"minimum\" : " +
-             NumToString(std::numeric_limits<int8_t>::min()) +
-             ", \"maximum\" : " +
-             NumToString(std::numeric_limits<int8_t>::max());
-    case BASE_TYPE_UCHAR:
-      return "\"type\" : \"integer\", \"minimum\" : 0, \"maximum\" :" +
-             NumToString(std::numeric_limits<uint8_t>::max());
-    case BASE_TYPE_SHORT:
-      return "\"type\" : \"integer\", \"minimum\" : " +
-             NumToString(std::numeric_limits<int16_t>::min()) +
-             ", \"maximum\" : " +
-             NumToString(std::numeric_limits<int16_t>::max());
-    case BASE_TYPE_USHORT:
-      return "\"type\" : \"integer\", \"minimum\" : 0, \"maximum\" : " +
-             NumToString(std::numeric_limits<uint16_t>::max());
-    case BASE_TYPE_INT:
-      return "\"type\" : \"integer\", \"minimum\" : " +
-             NumToString(std::numeric_limits<int32_t>::min()) +
-             ", \"maximum\" : " +
-             NumToString(std::numeric_limits<int32_t>::max());
-    case BASE_TYPE_UINT:
-      return "\"type\" : \"integer\", \"minimum\" : 0, \"maximum\" : " +
-             NumToString(std::numeric_limits<uint32_t>::max());
-    case BASE_TYPE_LONG:
-      return "\"type\" : \"integer\", \"minimum\" : " +
-             NumToString(std::numeric_limits<int64_t>::min()) +
-             ", \"maximum\" : " +
-             NumToString(std::numeric_limits<int64_t>::max());
-    case BASE_TYPE_ULONG:
-      return "\"type\" : \"integer\", \"minimum\" : 0, \"maximum\" : " +
-             NumToString(std::numeric_limits<uint64_t>::max());
+    case BASE_TYPE_BOOL: return "\"type\" : \"bool\"";
+    case BASE_TYPE_CHAR: return "\"type\" : \"int8_t\"";
+    case BASE_TYPE_UCHAR: return "\"type\" : \"uint8_t\"";
+    case BASE_TYPE_SHORT: return "\"type\" : \"int16_t\"";
+    case BASE_TYPE_USHORT: return "\"type\" : \"uint16_t\"";
+    case BASE_TYPE_INT: return "\"type\" : \"int32_t\"";
+    case BASE_TYPE_UINT: return "\"type\" : \"uint32_t\"";
+    case BASE_TYPE_LONG: return "\"type\" : \"int64_t\"";
+    case BASE_TYPE_ULONG: return "\"type\" : \"uint64_t\"";
     case BASE_TYPE_FLOAT:
-    case BASE_TYPE_DOUBLE: return "\"type\" : \"number\"";
+    case BASE_TYPE_DOUBLE: return "\"type\" : \"float\"";
     case BASE_TYPE_STRING: return "\"type\" : \"string\"";
     default: return "";
   }
@@ -203,6 +179,18 @@ class JsonSchemaGenerator : public BaseGenerator {
       return false; 
     }
     code_ += "{" + NewLine();
+
+    //add
+
+   //const auto &myname_spaces =
+   //  (*parser_.enums_.vec.cbegin())->defined_namespace->components;
+   // std::string perf = "";
+   // for (auto ns = myname_spaces.cbegin(); ns != myname_spaces.cend(); ++ns) {
+   //   perf.append(*ns + "_");
+   // }
+   // code_ += Indent(1) + "\"namespace\" : " + "\"" + perf + "\"," + NewLine();
+    //
+
     code_ += Indent(1) +
              "\"$schema\": \"https://json-schema.org/draft/2019-09/schema\"," +
              NewLine();
@@ -214,6 +202,11 @@ class JsonSchemaGenerator : public BaseGenerator {
       auto enumdef(Indent(3) + "\"enum\": [");
       for (auto enum_value = (*e)->Vals().begin();
            enum_value != (*e)->Vals().end(); ++enum_value) {
+
+        //
+        if ((*enum_value)->name == "NONE") continue;
+        //
+
         enumdef.append("\"" + (*enum_value)->name + "\"");
         if (*enum_value != (*e)->Vals().back()) { enumdef.append(", "); }
       }
@@ -225,7 +218,18 @@ class JsonSchemaGenerator : public BaseGenerator {
          s != parser_.structs_.vec.cend(); ++s) {
       const auto &structure = *s;
       code_ += Indent(2) + "\"" + GenFullName(structure) + "\" : {" + NewLine();
-      code_ += Indent(3) + GenType("object") + "," + NewLine();
+
+      //
+      code_ += Indent(3);
+
+      if ((*s)->fixed) {
+        code_ += GenType("struct");
+      } else {
+        code_ += GenType("table");
+      }
+      //
+
+      code_ += "," + NewLine();
       const auto &comment_lines = structure->doc_comment;
       auto comment = PrepareDescription(comment_lines);
       if (comment != "") {
